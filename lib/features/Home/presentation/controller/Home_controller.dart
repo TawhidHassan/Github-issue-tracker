@@ -21,7 +21,7 @@ class HomeController extends GetxController implements GetxService{
   void dispose() {
     // TODO: implement dispose
     controller!.dispose();
-    issueController.dispose();
+    issueController!.dispose();
     super.dispose();
   }
 
@@ -111,17 +111,19 @@ class HomeController extends GetxController implements GetxService{
 
 
   Rx<IssueResponseModel?> responseIssue=Rx<IssueResponseModel?>(null);
+  final issueFilterSelected=false.obs;
+  List<IssueModel> filterIssueList = [];
   final issueLoading=false.obs;
   final issuePagingCirculer=false.obs;
   List<IssueModel> issueList = [];
-  ScrollController issueController = ScrollController();
+  ScrollController? issueController;
   int issueListLength = 10;
   int issuePage = 1;
   String? issueSearchText="";
 
   addIssueItems() async {
-    issueController.addListener(() {
-      if (issueController.position.maxScrollExtent == issueController.position.pixels) {
+    issueController!.addListener(() {
+      if (issueController!.position.maxScrollExtent == issueController!.position.pixels) {
         issueListLength++;
         issuePage++;
         getIssuePagingData(page: issuePage.toString());
@@ -135,6 +137,8 @@ class HomeController extends GetxController implements GetxService{
     responseIssue.value=null;
 
     issueList.clear();
+    filterIssueList.clear();
+    issueController = ScrollController();
     issuePage=1;
     issueSearchText=search;
     addIssueItems();
@@ -156,6 +160,14 @@ class HomeController extends GetxController implements GetxService{
         issueList.add(r.items![i]);
       }
     });
+
+    filterIssueList=issueList;
+    if(issueFilterSelected.value){
+      filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
+      filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
+      filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+    }
+    Logger().e(issueList.length);
     update();
   }
 
@@ -179,9 +191,16 @@ class HomeController extends GetxController implements GetxService{
       for(var i=0;i<r.items!.length;i++){
         issueList.add(r.items![i]);
       }
+      filterIssueList=issueList;
       issuePagingCirculer.value=false;
+      Logger().w(filterIssueList.length);
+      if(issueFilterSelected.value){
+        filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
+        filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
+        filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+      }
       update();
-      Logger().w(issueList.length);
+      Logger().e(filterIssueList.length);
 
     });
 

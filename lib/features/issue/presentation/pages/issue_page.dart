@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ihb/features/issue/presentation/controller/issue_controller.dart';
+import 'package:logger/logger.dart';
 
 import '../../../../core/common/widgets/loading/loader.dart';
 import '../../../../core/common/widgets/text field/search_bar.dart';
@@ -57,10 +58,36 @@ class IssuePage extends StatelessWidget {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Search(
-                      onSubmit: (text){
-                        controller.searchIssue(search: text, pagex: "1");                      },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Search(
+                            onSubmit: (text){
+                              controller.searchIssue(search: text, pagex: "1");                      },
 
+                          ),
+                        ),
+
+                        SizedBox(width: 12,),
+                        ChoiceChip(
+                          label: Text('Flutter'),
+                          selected:controller.issueFilterSelected.value,
+                          onSelected: (bool selected) {
+                            controller.issueFilterSelected.value=selected;
+                            if(selected){
+                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
+                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
+                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+                            }else{
+                              Get.find<IssueController>().searchIssue(search: "Flutter", pagex: "1");
+                            }
+                            Logger().w(controller.filterIssueList.length);
+
+                            controller.update();
+
+                          },
+                        )
+                      ],
                     ),
                   ),
                 ),

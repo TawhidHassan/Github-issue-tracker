@@ -17,17 +17,19 @@ class IssueController extends GetxController implements GetxService{
 
 
  Rx<IssueResponseModel?> responseIssue=Rx<IssueResponseModel?>(null);
+ final issueFilterSelected=false.obs;
+ List<IssueModel> filterIssueList = [];
  final issueLoading=false.obs;
  final issuePagingCirculer=false.obs;
  List<IssueModel> issueList = [];
- ScrollController issueController = ScrollController();
+ ScrollController? issueController;
  int issueListLength = 10;
  int issuePage = 1;
  String? issueSearchText="";
 
  addIssueItems() async {
-  issueController.addListener(() {
-   if (issueController.position.maxScrollExtent == issueController.position.pixels) {
+  issueController!.addListener(() {
+   if (issueController!.position.maxScrollExtent == issueController!.position.pixels) {
     issueListLength++;
     issuePage++;
     getIssuePagingData(page: issuePage.toString());
@@ -37,10 +39,12 @@ class IssueController extends GetxController implements GetxService{
  }
 
  Future searchIssue({String? search, String? pagex})async {
+
   issueLoading.value=true;
   responseIssue.value=null;
-
   issueList.clear();
+  filterIssueList.clear();
+  issueController = ScrollController();
   issuePage=1;
   issueSearchText=search;
   addIssueItems();
@@ -62,6 +66,12 @@ class IssueController extends GetxController implements GetxService{
     issueList.add(r.items![i]);
    }
   });
+  filterIssueList=issueList;
+  if(issueFilterSelected.value){
+   filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
+   filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
+   filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+  }
   update();
  }
 
@@ -86,8 +96,15 @@ class IssueController extends GetxController implements GetxService{
     issueList.add(r.items![i]);
    }
    issuePagingCirculer.value=false;
+   filterIssueList=issueList;
+   Logger().w(filterIssueList.length);
+   if(issueFilterSelected.value){
+    filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
+    filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
+    filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+   }
    update();
-   Logger().w(issueList.length);
+   Logger().e(filterIssueList.length);
 
   });
 
