@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ihb/features/issue/data/models/issue_model.dart';
+import 'package:ihb/features/issue/presentation/pages/issue_details_page.dart';
+import 'package:ihb/features/issue/presentation/pages/issue_page.dart';
 import 'package:ihb/features/profile/presentation/pages/profile_page.dart';
 import '../../Dependenci Injection/init_dependencies.dart';
+import '../../features/Home/data/models/repository_model.dart';
 import '../../features/Home/presentation/pages/Home_page.dart';
+import '../../features/Home/presentation/pages/repos_issue.dart';
 import '../../features/mainScreen/presentation/pages/mainScreen_page.dart';
 import '../LocalDataBase/localdata.dart';
 import '/core/routes/route_path.dart';
@@ -48,6 +53,13 @@ class AppRouter {
       ),
 
 
+      GoRoute(
+        name: Routes.issuesDetailsPage,
+        path: Routes.issuesDetailsPagePath,
+        builder: (context, state) => IssueDetailsPage(
+          issueModel: state.extra as IssueModel,
+        ),
+      ),
 
       ///Bottom nav bar
       StatefulShellRoute.indexedStack(
@@ -69,7 +81,14 @@ class AppRouter {
                         child: HomePage(),
                   ),
                 routes: [
+                  GoRoute(
+                      name: Routes.repoIssuesPage,
+                      path: Routes.repoIssuesPagePath,
+                      pageBuilder: (context, state) =>  NoTransitionPage(
+                        child: ReposIssue(repositoryModel: state.extra as RepositoryModel,),
+                      ),
 
+                  ),
 
                 ]
               ),
@@ -88,7 +107,7 @@ class AppRouter {
                 name: Routes.issuesPage,
                 path: Routes.issuesPagePath,
                 pageBuilder: (context, state) => const NoTransitionPage(
-                  child: ProfilePage(),
+                  child: IssuePage(),
                 ),
               ),
             ],

@@ -60,9 +60,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           leadingIcon = back ??
               IconButton(
                 onPressed: () => Navigator.of(context).pop(),
-                icon: Assets.icons.backArrow.svg(
-                    colorFilter: ColorFilter.mode(
-                        leadingColor ?? Colors.white, BlendMode.srcIn)),
+                icon: Icon(Icons.arrow_back_ios,color: leadingColor ?? Colors.white),
               );
         }
       }

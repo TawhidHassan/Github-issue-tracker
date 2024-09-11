@@ -1,6 +1,14 @@
+import 'package:ihb/features/issue/data/models/issue_model.dart';
+import 'package:ihb/features/issue/data/models/issues_response_model.dart';
+
+import '../../../../core/config/Strings/api_endpoint.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/api_services.dart';
 
 abstract class IssueRemoteSource {
+  Future<IssueResponseModel?>  searchIssue(String page, String search);
+  Future<IssueModel?>  getIssueDetails(String id);
+
 // Future<LoginResponseModel?> login(String email,String deviceToken, String pass, bool isPg);
 
 }
@@ -9,6 +17,29 @@ abstract class IssueRemoteSource {
 class IssueRemoteSourceImpl implements IssueRemoteSource {
     final ApiMethod apiMethod;
    IssueRemoteSourceImpl({required this.apiMethod});
+
+  @override
+  Future<IssueResponseModel?> searchIssue(String page, String search)async {
+    // TODO: implement searchIssue
+
+    try{
+      final result =await apiMethod.get(url: ApiEndpoint.SEARCH_ISSUE+"${search}&page=${page}&page_limit=20",showResult: true,isBasic: true,duration: 30);
+       return IssueResponseModel.fromJson(result);
+    }catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<IssueModel?> getIssueDetails(String id)async {
+    // TODO: implement getIssueDetails
+    try{
+      final result =await apiMethod.get(url: ApiEndpoint.DETAILS_ISSUE+"${id}",showResult: true,isBasic: true,duration: 30);
+      return IssueModel.fromJson(result);
+    }catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
 
 // @override
 // Future<LoginResponseModel?> login(String email,String deviceToken, String pass, bool isPg)async {

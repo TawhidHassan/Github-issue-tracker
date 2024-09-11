@@ -5,6 +5,8 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initSplash();
   _initHome();
+  _initIssue();
+  _initProfile();
 
 
 
@@ -68,6 +70,45 @@ void _initHome(){
     ..registerFactory(
           () => HomeUseCase(
         homeRepository:   serviceLocator(),
+      ),
+    );
+}
+void _initIssue(){
+  /// Datasource
+  serviceLocator
+    ..registerFactory<IssueRemoteSource>(
+          () => IssueRemoteSourceImpl(apiMethod: serviceLocator(),
+      ),
+    )/// Repository
+    ..registerFactory<IssueRepository>(
+          () => IssueRepositoryImpl(
+          connectionChecker:  serviceLocator(),
+          remoteSource:  serviceLocator()
+      ),
+    )/// Usecases
+    ..registerFactory(
+          () => IssueUseCase(
+        issueRepository:   serviceLocator(),
+      ),
+    );
+}
+
+void _initProfile(){
+  /// Datasource
+  serviceLocator
+    ..registerFactory<ProfileRemoteSource>(
+          () => ProfileRemoteSourceImpl(apiMethod: serviceLocator(),
+      ),
+    )/// Repository
+    ..registerFactory<ProfileRepository>(
+          () => ProfileRepositoryImpl(
+          connectionChecker:  serviceLocator(),
+          remoteSource:  serviceLocator()
+      ),
+    )/// Usecases
+    ..registerFactory(
+          () => ProfileUseCase(
+        profileRepository:   serviceLocator(),
       ),
     );
 }

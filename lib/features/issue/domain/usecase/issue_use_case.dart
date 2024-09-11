@@ -1,5 +1,7 @@
 
 import 'package:fpdart/fpdart.dart';
+import 'package:ihb/features/issue/data/models/issue_model.dart';
+import 'package:ihb/features/issue/data/models/issues_response_model.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/issue.dart';
 import '../repositories/issue_repository.dart';
@@ -15,12 +17,20 @@ IssueUseCase({this.issueRepository});
     throw UnimplementedError();
     }
 
-//
-// @override
-// Future<Either<Failure, LoginResponseModel>> call(GetLoginParams params) {
-// // TODO: implement call
-// return loginRepository!.login(params.email!,params.deviceToken!, params.password!, params.isPG!);
-// }
+
+  @override
+  Future<Either<Failure, IssueResponseModel>> searchIssue(String page, String search) {
+  // TODO: implement call
+  return issueRepository!.searchIssue(page,search);
+  }
+
+  @override
+  Future<Either<Failure, IssueModel>>getIssueDetails(String id) {
+  // TODO: implement call
+  return issueRepository!.getIssueDetails(id);
+  }
+
+
 
 }
 

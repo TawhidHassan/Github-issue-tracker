@@ -1,6 +1,11 @@
+import 'package:ihb/features/Home/data/models/owner_model.dart';
+
+import '../../../../core/config/Strings/api_endpoint.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/api_services.dart';
 
 abstract class ProfileRemoteSource {
+  Future<OwnerModel?>  searchUser(String search);
 // Future<LoginResponseModel?> login(String email,String deviceToken, String pass, bool isPg);
 
 }
@@ -9,6 +14,19 @@ abstract class ProfileRemoteSource {
 class ProfileRemoteSourceImpl implements ProfileRemoteSource {
     final ApiMethod apiMethod;
    ProfileRemoteSourceImpl({required this.apiMethod});
+
+  @override
+  Future<OwnerModel?> searchUser(String search)async {
+    // TODO: implement searchUser
+    //
+
+  try{
+    final result =await apiMethod.get(url: ApiEndpoint.USER_PROFILE+"${search}",showResult: true,isBasic: true,duration: 30);
+    return OwnerModel.fromJson(result);
+  }catch (e) {
+    throw ServerException(e.toString());
+  }
+  }
 
 // @override
 // Future<LoginResponseModel?> login(String email,String deviceToken, String pass, bool isPg)async {

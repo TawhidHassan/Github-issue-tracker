@@ -4,21 +4,20 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ihb/features/Home/data/models/repository_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ihb/features/issue/data/models/issue_model.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/routes/route_path.dart';
 
 
-class IssueCard extends StatelessWidget {
-  final IssueModel? issueModel;
-  const IssueCard({super.key, this.issueModel});
+class RepoCard extends StatelessWidget {
+  final RepositoryModel? repositoryModel;
+  const RepoCard({super.key, this.repositoryModel});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        context.pushNamed(Routes.issuesDetailsPage,extra:issueModel );
+        context.pushNamed(Routes.repoIssuesPage,extra:repositoryModel );
       },
       child: Container(
         padding: EdgeInsets.symmetric(
@@ -43,7 +42,7 @@ class IssueCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     maxLines: 10,
-                    issueModel!.title??'',
+                    repositoryModel!.fullName??'',
                     style: GoogleFonts.sourceSans3(
                         color: Colors.white,
                         fontSize: 17.sp,
@@ -52,12 +51,12 @@ class IssueCard extends StatelessWidget {
                 ),
 
                 Text(
-                  DateFormat('yyyy-MM-dd hh:mm:a').format(issueModel!.createdAt!),
+                  DateFormat('yyyy-MM-dd hh:mm:a').format(repositoryModel!.createdAt!),
                   style: GoogleFonts.sourceCodePro(
-                      color: const Color(0xffB8B8B8),
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400
-                  ),),
+                    color: const Color(0xffB8B8B8),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400
+                ),),
               ],
             ),
             SizedBox(height: 4.h,),
@@ -65,7 +64,7 @@ class IssueCard extends StatelessWidget {
               children: [
                 Text(
                   maxLines: 10,
-                  issueModel!.repositoryUrl!.split("/repos/")[1],
+                  repositoryModel!.name??"",
                   style: GoogleFonts.sourceSans3(
                       color: Colors.white70,
                       fontSize: 12.sp,
@@ -82,7 +81,7 @@ class IssueCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(26.r)
                   ),
 
-                  child: Text(issueModel!.state??"", style: GoogleFonts.roboto(
+                  child: Text(repositoryModel!.defaultBranch??"", style: GoogleFonts.roboto(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w400
@@ -96,7 +95,7 @@ class IssueCard extends StatelessWidget {
             Row(
               children: [
                 CachedNetworkImage(
-                    imageUrl:  issueModel!.user!.avatarUrl??'',
+                    imageUrl:  repositoryModel!.owner!.avatarUrl??'',
                     // imageUrl: ApiEndpoint.imageBaseUrl+controller.response.value!.myProfile!.image!,
                     imageBuilder: (context,
                         imageProvider) =>
@@ -127,7 +126,7 @@ class IssueCard extends StatelessWidget {
 
                 SizedBox(width: 8.w,),
 
-                Text(issueModel!.user!.login??"",
+                Text(repositoryModel!.owner!.login??"",
                   style: GoogleFonts.sourceCodePro(
                       color: const Color(0xff9B9B9B),
                       fontSize: 12.sp,

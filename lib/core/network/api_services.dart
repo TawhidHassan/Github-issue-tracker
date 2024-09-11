@@ -17,8 +17,9 @@ final log = logger(ApiMethod);
 
 Map<String, String> basicHeaderInfo() {
   return {
-    HttpHeaders.acceptHeader: "application/json",
+    HttpHeaders.acceptHeader: "application/vnd.github+json",
     HttpHeaders.contentTypeHeader: "application/json",
+    HttpHeaders.authorizationHeader: "Bearer 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",
   };
 }
 

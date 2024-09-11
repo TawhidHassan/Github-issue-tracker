@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const whiteColor = Color(0xffffffff);
-  static const primaryColor = Color(0xFFFF0844);
+  static const primaryColor = Color(0xFF333333);
 
   static const primaryBackground = Color(0xFFF7F9FC);
-  static const blackColor = Color(0xff000000);
+  static const blackColor = Color(0xff161616F0);
   static const containerColor = Color(0xffF7F9FC);
 
 
   static const greenColor400 = Color(0xff1DB469);
 
-  static const palkiColor = Color(0xFFFF0844);
-  static const kalpiColor = Color(0xFfF18DB5);
-  static const primarySlate400 = Color(0xff8897AE);
+  static const palkiColor = Color(0xFF333333);
+  static const selectColor = Color(0xFf0A84FF);
+  static const primarySlate400 = Color(0xff0A84FF);
   static const primarySlate500 = Color(0xff5E718D);
   static const primaryTextButtonColor = Color(0xFF4A72FF);
 
@@ -33,7 +33,7 @@ class AppColors {
   static const green600 = Color(0xFF0A9952);
 
   //Emerald
-  static const emerald300 = Color(0xFFFF0844);
+  static const emerald300 = Color(0xFF333333);
 
   //warning colors
   static const primaryErrorColor = Color(0xFFFFF5F4);
@@ -59,18 +59,18 @@ class AppColors {
 
 
   static const MaterialColor kPrimaryColorx = MaterialColor(
-    0xFFFF0844,
+    0xFF333333,
     <int, Color>{
-      50: Color(0xFFFF0844),
-      100: Color(0xFFFF0844),
-      200: Color(0xFFFF0844),
-      300: Color(0xFFFF0844),
-      400: Color(0xFFFF0844),
-      500: Color(0xFFFF0844),
-      600: Color(0xFFFF0844),
-      700: Color(0xFFFF0844),
-      800: Color(0xFFFF0844),
-      900: Color(0xFFFF0844),
+      50: Color(0xFF333333),
+      100: Color(0xFF333333),
+      200: Color(0xFF333333),
+      300: Color(0xFF333333),
+      400: Color(0xFF333333),
+      500: Color(0xFF333333),
+      600: Color(0xFF333333),
+      700: Color(0xFF333333),
+      800: Color(0xFF333333),
+      900: Color(0xFF333333),
     },
   );
 }

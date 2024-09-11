@@ -1,5 +1,6 @@
 
 import 'package:fpdart/fpdart.dart';
+import 'package:ihb/features/Home/data/models/owner_model.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/profile.dart';
 import '../repositories/profile_repository.dart';
@@ -14,6 +15,13 @@ ProfileUseCase({this.profileRepository});
     // TODO: implement call
     throw UnimplementedError();
     }
+
+
+  @override
+  Future<Either<Failure, OwnerModel>> searchUser(String search) {
+  // TODO: implement call
+  return profileRepository!.searchUser(search);
+  }
 
 //
 // @override

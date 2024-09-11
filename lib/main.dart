@@ -67,9 +67,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => GetMaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Github issue',
-        theme: CustomTheme.lightTheme,
+        theme: CustomTheme.darkTheme,
         // darkTheme:CustomTheme.darkTheme, // standard dark theme
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.dark,
         routeInformationParser: AppRouter.router.routeInformationParser,
         routerDelegate: AppRouter.router.routerDelegate,
         routeInformationProvider: AppRouter.router.routeInformationProvider,

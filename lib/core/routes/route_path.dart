@@ -18,11 +18,16 @@ class Routes {
   static const String HomePage = 'home';
   static const String HomePagePath = '/home';
 
+  static const String repoIssuesPage = 'repoIssuesPage';
+  static const String repoIssuesPagePath = 'repoIssuesPage';
 
   /// add cart
 
   static const String issuesPage = 'issuesPage';
   static const String issuesPagePath = '/issuesPage';
+
+  static const String issuesDetailsPage = 'issuesDetailsPage';
+  static const String issuesDetailsPagePath = '/issuesDetailsPage';
 
   static const String profilePage = 'profilePage';
   static const String profilePagePath = '/profilePage';

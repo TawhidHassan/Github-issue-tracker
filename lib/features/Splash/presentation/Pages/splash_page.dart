@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColors.primaryColor,
       body: Container(
         height: 1.0.sh,
         width: 1.0.sw,
@@ -35,19 +35,19 @@ class _SplashPageState extends State<SplashPage> {
           children: [
             //--------------------------------------app logo
             SizedBox(),
-            Text("Github Issue Tracker",style: boldText(24,color: Colors.blueGrey),),
+            Text("Github Issue Tracker",style: boldText(24,color:  AppColors.selectColor,),),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text('Powered by', style: robotoMedium.copyWith(
-                    color: AppColors.primarySlate500,
+                    color: AppColors.selectColor,
                     fontSize: 16.sp
                 ),),
 
                 //-------------------------------------bsrm logo
                 Container(
                     alignment: Alignment.center,
-                    child: Text("Sifat hasan")
+                    child: Text("Sifat hasan",style: TextStyle(color: AppColors.selectColor.withAlpha(100)),)
                 ),
                 SizedBox(height: 12,)
 

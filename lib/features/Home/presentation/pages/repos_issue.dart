@@ -5,25 +5,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ihb/features/issue/presentation/controller/issue_controller.dart';
+import 'package:ihb/core/config/color/app_colors.dart';
+import 'package:ihb/features/Home/data/models/repository_model.dart';
 
 import '../../../../core/common/widgets/loading/loader.dart';
 import '../../../../core/common/widgets/text field/search_bar.dart';
-import '../../../../core/config/color/app_colors.dart';
-import '../widget/issue_widget.dart';
+import '../../../issue/presentation/widget/issue_widget.dart';
+import '../controller/Home_controller.dart';
+import '../widget/repo_card.dart';
 
-
-
-
-class IssuePage extends StatelessWidget {
-  const IssuePage({super.key,});
+class ReposIssue extends StatelessWidget {
+  final RepositoryModel? repositoryModel;
+  const ReposIssue({super.key, this.repositoryModel});
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
-      Get.find<IssueController>().searchIssue(search: "Flutter", pagex: "1");
+      Get.find<HomeController>().searchRepositoryIssue(search: repositoryModel!.fullName??"", pagex: "1");
     });
-    return GetBuilder<IssueController>(
+    return GetBuilder<HomeController>(
       assignId: true,
       builder: (controller) {
         return Obx(() {
@@ -36,10 +36,15 @@ class IssuePage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Issue List", style: GoogleFonts.roboto(
+                      Text(repositoryModel!.fullName??"", style: GoogleFonts.roboto(
                           color: Colors.white,
                           fontSize: 17.sp,
                           fontWeight: FontWeight.bold
+                      ),),
+                      Text("Issue List", style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500
                       ),),
                     ],
                   ),
@@ -59,7 +64,8 @@ class IssuePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Search(
                       onSubmit: (text){
-                        controller.searchIssue(search: text, pagex: "1");                      },
+                        // Get.find<HomeController>().searchRepository(search: text, pagex: "1");
+                      },
 
                     ),
                   ),
@@ -69,7 +75,7 @@ class IssuePage extends StatelessWidget {
                   child:controller.issueLoading.value?
                   Loader():
                   controller.issueList.isEmpty?
-                  Text("There has no data",style: TextStyle(color: AppColors.primarySlate25),):
+                      Text("There has no data",style: TextStyle(color: AppColors.primarySlate25),):
                   ListView.builder(
                       controller: controller.issueController,
                       itemCount: controller.issueList.length+

@@ -15,15 +15,10 @@ class SplashScreenRemoteSourceImpl implements SplashScreenRemoteSource {
    SplashScreenRemoteSourceImpl({this.apiMethod});
 
   @override
-  Future<SplashScreenModel> call(bool isPg) async{
+  Future<SplashScreenModel> call(bool isPg) {
     // TODO: implement call
-    try{
-      final result =await apiMethod!.get(url: ApiEndpoint.GET_ALL_CHARACTERS.toString(),showResult: true,isBasic: false,duration: 30);
-      var resultx=SplashScreenModel.fromJson(result);
-      // Logger().w(result);
-      return resultx;
-    } catch(e){
-      throw ServerException(e.toString());
-    }
+    throw UnimplementedError();
   }
+
+ 
 }

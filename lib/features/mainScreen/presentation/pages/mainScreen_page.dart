@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
 
         BottomNavigationBar(
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor: AppColors.blackColor,
           showSelectedLabels: true,
           enableFeedback: true,
           iconSize: 32,
@@ -63,32 +63,33 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
           currentIndex: widget.navigationShell.currentIndex,
           unselectedLabelStyle: robotoMedium.copyWith(
             fontSize: 12,
+            color: AppColors.selectColor,
           ),
           selectedLabelStyle:  robotoMedium.copyWith(
             fontSize: 12,
           ),
-          unselectedItemColor:  AppColors.primarySlate300,
-          selectedItemColor: AppColors.palkiColor,
+          unselectedItemColor:  AppColors.selectColor,
+          selectedItemColor: AppColors.primarySlate400,
           // selectedIndex:
           items: [
             BottomNavigationBarItem(
               label: "Home",
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home_outlined,color: AppColors.palkiColor)
+              icon: Icon(Icons.home_outlined,color: AppColors.selectColor.withAlpha(100),),
+              activeIcon: Icon(Icons.home_outlined,color: AppColors.selectColor)
             ),
 
 
             BottomNavigationBarItem(
                 label: "Issues",
-                icon:Icon(Icons.report_problem_outlined,color: AppColors.primarySlate200),
-                activeIcon: Icon(Icons.report_problem_outlined,color: AppColors.palkiColor),
+                icon:Icon(Icons.report_problem_outlined,color: AppColors.selectColor.withAlpha(100),),
+                activeIcon: Icon(Icons.report_problem_outlined,color: AppColors.selectColor),
 
             ),
 
             BottomNavigationBarItem(
                 label: "Profile",
-                icon:Icon(Icons.person_outline,color: AppColors.primarySlate200),
-                activeIcon: Icon(Icons.person_outline,color: AppColors.palkiColor),
+                icon:Icon(Icons.person_outline,color: AppColors.selectColor.withAlpha(100),),
+                activeIcon: Icon(Icons.person_outline,color:  AppColors.selectColor),
 
             ),
 
