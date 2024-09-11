@@ -17,7 +17,9 @@ import '../widget/repo_card.dart';
 
 class ReposIssue extends StatelessWidget {
   final RepositoryModel? repositoryModel;
-  const ReposIssue({super.key, this.repositoryModel});
+  ReposIssue({super.key, this.repositoryModel});
+
+  TextEditingController textEditingController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +69,14 @@ class ReposIssue extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Search(
+                            controller: textEditingController,
                             onSubmit: (text){
                               // Get.find<HomeController>().searchRepository(search: text, pagex: "1");
                               if(text==""){
                                 Get.find<HomeController>().searchRepositoryIssue(search: repositoryModel!.fullName??"", pagex: "1");
                               }else{
-                               controller.filterIssueList= controller.issueList.where((test)=>test.title!.contains(text)).toList();
-                                Logger().i(controller.filterIssueList.length);
+                               controller.filterIssueList.value= controller.issueList.value.where((test)=>test.title!.contains(text)).toList();
+                                Logger().i(controller.filterIssueList.value.length);
                                 controller.update();
                               }
                             },
@@ -86,14 +89,16 @@ class ReposIssue extends StatelessWidget {
                           onSelected: (bool selected) {
                             controller.issueFilterSelected.value=selected;
                             if(selected){
-                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
-                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
+                              controller.filterIssueList.value.removeWhere((test)=>test.title!.contains("flutter"));
+                              controller.filterIssueList.value.removeWhere((test)=>test.title!.contains("Flutter"));
                             }else{
-                              Get.find<HomeController>().searchRepositoryIssue(search: repositoryModel!.fullName??"", pagex: "1");
+                              textEditingController.text="";
+                              controller.filterIssueList.value.clear();
+                              for(var i=0;i<controller.issueList.value.length;i++){
+                                controller.filterIssueList.value.add(controller.issueList.value[i]);
+                              }
                             }
-                            Logger().w(controller.filterIssueList.length);
 
-                            controller.update();
 
                           },
                         )
@@ -106,16 +111,16 @@ class ReposIssue extends StatelessWidget {
                   flex: 12,
                   child:controller.issueLoading.value?
                   Loader():
-                  controller.filterIssueList.isEmpty?
+                  controller.filterIssueList.value.isEmpty?
                       Text("There has no data",style: TextStyle(color: AppColors.primarySlate25),):
                   ListView.builder(
                       controller: controller.issueController,
-                      itemCount: controller.filterIssueList.length+
+                      itemCount: controller.filterIssueList.value.length+
                           (controller.issuePagingCirculer.value ? 1 : 0),
                       itemBuilder: (context, index) {
-                        if (index < controller.filterIssueList.length) {
+                        if (index < controller.filterIssueList.value.length) {
                           return IssueCard(
-                            issueModel: controller.filterIssueList[index],
+                            issueModel: controller.filterIssueList.value[index],
                           );
                         }else{
                           Timer(const Duration(milliseconds: 30), () {

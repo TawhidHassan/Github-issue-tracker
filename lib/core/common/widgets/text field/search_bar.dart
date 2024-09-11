@@ -14,13 +14,14 @@ class Search extends StatelessWidget {
     this.textColor =  Colors.white,
     this.borderColor = Colors.white,
     this.iconColor  =  Colors.white,
-    this.menuColor = Colors.white, this.onTap, this.onSubmit,
+    this.menuColor = Colors.white, this.onTap, this.onSubmit, this.controller,
   });
     final Color ? textColor ;
     final Color ? borderColor ;
     final Color ? iconColor ;
     final Color ? menuColor ;
     final VoidCallback ?onTap;
+    final TextEditingController ?controller;
     final void Function(String)? onSubmit;
 
 
@@ -28,6 +29,7 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  TextFormField(
+      controller: controller,
       onFieldSubmitted: onSubmit!,
       style: TextStyle(
           color: AppColors.primarySlate400

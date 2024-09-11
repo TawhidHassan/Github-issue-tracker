@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:ihb/features/Home/data/models/repository_model.dart';
 import 'package:ihb/features/Home/data/models/repository_response_model.dart';
 import 'package:ihb/features/issue/data/models/issue_model.dart';
@@ -112,10 +113,10 @@ class HomeController extends GetxController implements GetxService{
 
   Rx<IssueResponseModel?> responseIssue=Rx<IssueResponseModel?>(null);
   final issueFilterSelected=false.obs;
-  List<IssueModel> filterIssueList = [];
+  final  filterIssueList = <IssueModel>[].obs;
   final issueLoading=false.obs;
   final issuePagingCirculer=false.obs;
-  List<IssueModel> issueList = [];
+ final  issueList = <IssueModel>[].obs;
   ScrollController? issueController;
   int issueListLength = 10;
   int issuePage = 1;
@@ -127,7 +128,7 @@ class HomeController extends GetxController implements GetxService{
         issueListLength++;
         issuePage++;
         getIssuePagingData(page: issuePage.toString());
-        update();
+
       }
     });
   }
@@ -136,8 +137,8 @@ class HomeController extends GetxController implements GetxService{
     issueLoading.value=true;
     responseIssue.value=null;
 
-    issueList.clear();
-    filterIssueList.clear();
+    issueList.value.clear();
+    filterIssueList.value.clear();
     issueController = ScrollController();
     issuePage=1;
     issueSearchText=search;
@@ -157,18 +158,20 @@ class HomeController extends GetxController implements GetxService{
     }, (r)async{
       responseIssue.value=r;
       for(var i=0;i<r.items!.length;i++){
-        issueList.add(r.items![i]);
+        issueList.value.add(r.items![i]);
+        filterIssueList.value.add(r.items![i]);
       }
     });
 
-    filterIssueList=issueList;
+
     if(issueFilterSelected.value){
-      filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
-      filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
-      filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+      filterIssueList.value.removeWhere((test)=>test.title!.contains("flutter"));
+      filterIssueList.value.removeWhere((test)=>test.title!.contains("Flutter"));
+      filterIssueList.value.removeWhere((test)=>test.title!.contains("FLUTTER"));
     }
-    Logger().e(issueList.length);
-    update();
+    Logger().w(filterIssueList.value.length);
+    Logger().e(issueList.value.length);
+
   }
 
   getIssuePagingData({String? page}) async{
@@ -189,18 +192,19 @@ class HomeController extends GetxController implements GetxService{
       );
     }, (r)async{
       for(var i=0;i<r.items!.length;i++){
-        issueList.add(r.items![i]);
+        issueList.value.add(r.items![i]);
+        filterIssueList.value.add(r.items![i]);
       }
-      filterIssueList=issueList;
+
       issuePagingCirculer.value=false;
-      Logger().w(filterIssueList.length);
+      Logger().w(issueList.value.length);
       if(issueFilterSelected.value){
-        filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
-        filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
-        filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
+        filterIssueList.value.removeWhere((test)=>test.title!.contains("flutter"));
+        filterIssueList.value.removeWhere((test)=>test.title!.contains("Flutter"));
+        filterIssueList.value.removeWhere((test)=>test.title!.contains("FLUTTER"));
       }
-      update();
-      Logger().e(filterIssueList.length);
+
+      Logger().e(filterIssueList.value.length);
 
     });
 

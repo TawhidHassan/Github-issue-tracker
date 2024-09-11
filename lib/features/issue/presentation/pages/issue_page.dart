@@ -16,8 +16,15 @@ import '../widget/issue_widget.dart';
 
 
 
-class IssuePage extends StatelessWidget {
+class IssuePage extends StatefulWidget {
   const IssuePage({super.key,});
+
+  @override
+  State<IssuePage> createState() => _IssuePageState();
+}
+
+class _IssuePageState extends State<IssuePage> {
+  TextEditingController textEditingController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +70,14 @@ class IssuePage extends StatelessWidget {
                         Expanded(
                           child: Search(
                             onSubmit: (text){
-                              controller.searchIssue(search: text, pagex: "1");                      },
+                              if(text==""){
+                                controller.searchIssue(search: "Flutter", pagex: "1");
+                              }else{
+                                controller.searchIssue(search: text, pagex: "1");
+                              }
+
+                              },
+                            controller: textEditingController,
 
                           ),
                         ),
@@ -75,15 +89,15 @@ class IssuePage extends StatelessWidget {
                           onSelected: (bool selected) {
                             controller.issueFilterSelected.value=selected;
                             if(selected){
-                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("flutter"));
-                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("Flutter"));
-                              controller.filterIssueList.removeWhere((test)=>test.title!.contains("FLUTTER"));
-                            }else{
-                              Get.find<IssueController>().searchIssue(search: "Flutter", pagex: "1");
-                            }
-                            Logger().w(controller.filterIssueList.length);
+                              controller.filterIssueList.value.removeWhere((test)=>test.title!.contains("flutter"));
+                              controller.filterIssueList.value.removeWhere((test)=>test.title!.contains("Flutter"));
+                              controller.filterIssueList.value.removeWhere((test)=>test.title!.contains("FLUTTER"));
 
-                            controller.update();
+                            }else{
+                              Get.find<IssueController>().searchIssue(search: controller.issueSearchText, pagex: "1");
+                            }
+                            Logger().w(controller.filterIssueList.value.length);
+
 
                           },
                         )
@@ -95,16 +109,16 @@ class IssuePage extends StatelessWidget {
                   flex: 12,
                   child:controller.issueLoading.value?
                   Loader():
-                  controller.issueList.isEmpty?
+                  controller.filterIssueList.value.isEmpty?
                   Text("There has no data",style: TextStyle(color: AppColors.primarySlate25),):
                   ListView.builder(
                       controller: controller.issueController,
-                      itemCount: controller.issueList.length+
+                      itemCount: controller.filterIssueList.value.length+
                           (controller.issuePagingCirculer.value ? 1 : 0),
                       itemBuilder: (context, index) {
-                        if (index < controller.issueList.length) {
+                        if (index < controller.filterIssueList.value.length) {
                           return IssueCard(
-                            issueModel: controller.issueList[index],
+                            issueModel: controller.filterIssueList.value[index],
                           );
                         }else{
                           Timer(const Duration(milliseconds: 30), () {
